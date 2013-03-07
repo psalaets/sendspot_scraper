@@ -11,12 +11,26 @@ module SendspotScraper
     def extract(html)
       html = Nokogiri::HTML(html)
 
-      name_grade = html.xpath('//tr[@id="body"]/td[1]/p[1]/strong[1]/child::text()').map(&:text).join.split('-').map(&:strip)
-
       route = Route.new
-      route.name = name_grade.first
-      route.grade = name_grade.last
+      route.name = extract_name(html)
+      route.grade = extract_grade(html)
       route
+    end
+
+    private
+
+    def extract_name(html)
+      text_nodes = html.xpath('//tr[@id="body"]/td[1]/p[1]/strong[1]/child::text()')
+      text = text_nodes.map(&:text).join
+
+      text.split('-').first.strip
+    end
+
+    def extract_grade(html)
+      text_nodes = html.xpath('//tr[@id="body"]/td[1]/p[1]/strong[1]/child::text()')
+      text = text_nodes.map(&:text).join
+
+      text.split('-').last.strip
     end
   end
 end

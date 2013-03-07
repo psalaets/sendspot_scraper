@@ -12,10 +12,10 @@ module SendspotScraper
       html = Nokogiri::HTML(html)
 
       name_grade = html.xpath('/html/body/center/table[3]/tr[1]/td[1]/p[1]/strong[1]/child::text()').map(&:text).join.split('-').map(&:strip)
-      name = name_grade.first
 
       route = Route.new
-      route.name = name
+      route.name = name_grade.first
+      route.grade = name_grade.last
       route
     end
   end

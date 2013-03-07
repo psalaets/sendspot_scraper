@@ -18,6 +18,12 @@ module SendspotScraper
 
         route.name.should eq('Pity The Fool')
       end
+
+      it("should return route with grade from html") do
+        route = @extractor.extract(@html)
+
+        route.grade.should eq('5.10b')
+      end
     end
   end
 end

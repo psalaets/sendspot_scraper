@@ -15,8 +15,11 @@ module SendspotScraper
     # DateTime of when route was recorded (not necessarily set date).
     attr_accessor :created_at
 
-    # Where the route is at.
+    # What gym the route is at.
     attr_accessor :gym
+
+    # City of the gym the route is at.
+    attr_accessor :location
 
     # Array indicating what type of climbing this allows. Any of:
     # Boulder, Lead, Top Rope

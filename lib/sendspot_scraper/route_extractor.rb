@@ -15,7 +15,7 @@ module SendspotScraper
       route.name = extract_name(html)
       route.grade = extract_grade(html)
       route.set_by = extract_setter(html)
-      route.gym = extract_gym(html)
+      route.gym = extract_location(html)
       route
     end
 
@@ -42,11 +42,11 @@ module SendspotScraper
       setter_text.strip
     end
 
-    def extract_gym(html)
-      gym_text_nodes = html.xpath('//tr[@id="body"]/td[1]/p[2]/a/text()')
-      gym_text = gym_text_nodes.first.text
+    def extract_location(html)
+      location_text_nodes = html.xpath('//tr[@id="body"]/td[1]/p[2]/a/text()')
+      location_text = location_text_nodes.first.text
 
-      /\((\w+)\)/.match(gym_text)[1]
+      /\((\w+)\)/.match(location_text)[1]
     end
   end
 end

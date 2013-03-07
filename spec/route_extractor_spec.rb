@@ -30,6 +30,12 @@ module SendspotScraper
 
         route.set_by.should eq('Ryan Blah')
       end
+
+      it("should return route with gym from html") do
+        route = @extractor.extract(@html)
+
+        route.gym.should eq('Rockville')
+      end
     end
   end
 end

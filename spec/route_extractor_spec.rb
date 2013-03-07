@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'set'
 
 module SendspotScraper
   describe RouteExtractor do
@@ -41,6 +42,12 @@ module SendspotScraper
         route = @extractor.extract(@html)
 
         route.gym.should eq('Earth Treks')
+      end
+
+      it("should return route with climb types from html") do
+        route = @extractor.extract(@html)
+
+        Set.new(route.types).should eq(Set.new(['Lead', 'Top-Rope']))
       end
     end
   end

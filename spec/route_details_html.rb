@@ -8,7 +8,7 @@ module SendspotScraper
 <meta http-equiv="Content-Language" content="en" />
 <meta http-equiv="X-UA-Compatible" content="IE=9" />
 <meta property="og:title" content="Pity The Fool (5.10b)" />
-             <meta property="og:description" content="Set by Ryan Jones at Earth Treks (Rockville) from theSendSpot.com" />
+             <meta property="og:description" content="Set by Ryan Blah at Earth Treks (Rockville) from theSendSpot.com" />
              <meta property="og:type" content="website" />
              <meta property="og:url" content="https://secure.thesendspot.com/earthtreks/route.php?rid=3302" />
              <meta property="og:image" content="http://thesendspot.com/vc/images/theSendSpot_ogimage.png" />
@@ -105,7 +105,7 @@ module SendspotScraper
         </strong>
          - set by
         <strong>
-        <a href="setter?sid=18">Ryan Jones </a>
+        <a href="setter?sid=18">Ryan Blah </a>
         </strong>
         </p>
         <p>

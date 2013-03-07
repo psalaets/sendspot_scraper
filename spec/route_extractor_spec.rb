@@ -24,6 +24,12 @@ module SendspotScraper
 
         route.grade.should eq('5.10b')
       end
+
+      it("should return route with setter from html") do
+        route = @extractor.extract(@html)
+
+        route.set_by.should eq('Ryan Blah')
+      end
     end
   end
 end

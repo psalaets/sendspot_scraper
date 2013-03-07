@@ -14,6 +14,7 @@ module SendspotScraper
       route = Route.new
       route.name = extract_name(html)
       route.grade = extract_grade(html)
+      route.set_by = extract_setter(html)
       route
     end
 
@@ -31,6 +32,13 @@ module SendspotScraper
       text = text_nodes.map(&:text).join
 
       text.split('-').last.strip
+    end
+
+    def extract_setter(html)
+      setter_text_nodes = html.xpath('//tr[@id="body"]/td[1]/p[1]/strong[2]/a/text()')
+      setter_text = setter_text_nodes.first.text
+
+      setter_text.strip
     end
   end
 end

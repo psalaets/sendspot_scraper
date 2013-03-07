@@ -10,18 +10,21 @@ module SendspotScraper
     # Returns Route with fields set by what was in html.
     def extract(html)
       html = Nokogiri::HTML(html)
-
-      route = Route.new
-      route.name = extract_name(html)
-      route.grade = extract_grade(html)
-      route.set_by = extract_setter(html)
-      route.location = extract_location(html)
-      route.gym = extract_gym(html)
-      route.types.push(*extract_types(html))
-      route
+      extract_route(html)
     end
 
     private
+
+    def extract_route(html)
+      route           = Route.new
+      route.name      = extract_name(html)
+      route.grade     = extract_grade(html)
+      route.set_by    = extract_setter(html)
+      route.location  = extract_location(html)
+      route.gym       = extract_gym(html)
+      route.types.push(*extract_types(html))
+      route
+    end
 
     def extract_name(html)
       name_grade_text_nodes = html.xpath('//tr[@id="body"]/td[1]/p[1]/strong[1]/child::text()')

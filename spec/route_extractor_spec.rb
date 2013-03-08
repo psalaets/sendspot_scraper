@@ -68,7 +68,15 @@ module SendspotScraper
         it("should raise DataExtractionError") do
           html = SendspotScraper.route_details_html(:has_setter_link => false)
 
-          expect { @extractor.extract(html) }.to raise_error(DataExtractionError, "route.setter")
+          expect { @extractor.extract(html) }.to raise_error(DataExtractionError)
+        end
+      end
+
+      context "when can't find route types in html" do
+        it("should raise DataExtractionError") do
+          html = SendspotScraper.route_details_html(:types => [])
+
+          expect { @extractor.extract(html) }.to raise_error(DataExtractionError)
         end
       end
     end

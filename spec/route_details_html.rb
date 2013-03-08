@@ -37,11 +37,7 @@ module SendspotScraper
     end
 
     def setter_link
-      if has_setter_link
-        "<a href=\"setter?sid=18\">#{setter}</a>"
-      else
-        ""
-      end
+      has_setter_link ? "<a href=\"setter?sid=18\">#{setter}</a>" : ""
     end
 
     def climb_types

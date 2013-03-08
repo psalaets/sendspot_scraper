@@ -65,15 +65,14 @@ module SendspotScraper
     end
 
     def extract_setter(html)
-      setter_text_nodes = html.xpath('//tr[@id="body"]/td[1]/p[1]/strong[2]/a/text()')
-      ensure_non_empty(setter_text_nodes, 'route.setter')
+      xpath = '//tr[@id="body"]/td[1]/p[1]/strong[2]/a/text()'
+      field_from_nodes(html, "route.setter", xpath) do |nodes|
+        setter_text = nodes.first.text
+        nickname_match = /\((.+)\)/.match(setter_text)
 
-      setter_text = setter_text_nodes.first.text
-
-      nickname_match = /\((.+)\)/.match(setter_text)
-
-      # Return nickname if there is one or just return name
-      (nickname_match && nickname_match[1]) || setter_text.strip
+        # Return nickname if there is one or just return name
+        (nickname_match && nickname_match[1]) || setter_text.strip
+      end
     end
 
     def extract_location(html)
@@ -87,15 +86,20 @@ module SendspotScraper
     end
 
     def extract_types(html)
-      types_text_nodes = html.xpath('//tr[@id="body"]/td[1]/div[@class="main"]/small[1]/p[1]/strong[1]/following-sibling::text()')
-      types_text = types_text_nodes.map(&:text).join
-
-      types_text.split('/').map(&:strip)
+      xpath = '//tr[@id="body"]/td[1]/div[@class="main"]/small[1]/p[1]/strong[1]/following-sibling::text()'
+      field_from_nodes(html, "route.types", xpath) do |nodes|
+        types_text = nodes.map(&:text).join.strip
+        types_text.split('/').map(&:strip)
+      end
     end
 
-    def ensure_non_empty(nodes, field)
-      raise DataExtractionError.new(field) if nodes.empty?
-      nodes
+    def field_from_nodes(html, field_name, xpath)
+      nodes = html.xpath(xpath)
+      raise DataExtractionError.new("No nodes found to get #{field_name} by #{xpath}") if nodes.empty?
+
+      field = yield(nodes)
+      raise DataExtractionError.new("#{field_name} was empty") if field.empty?
+      field
     end
   end
 end

@@ -1,4 +1,5 @@
 module SendspotScraper
+  # Climbing route fields that were scraped from html.
   class Route
     # URL to route's page at thesendspot.com.
     attr_accessor :url

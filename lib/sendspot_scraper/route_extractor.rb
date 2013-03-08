@@ -44,7 +44,7 @@ module SendspotScraper
       setter_text_nodes = html.xpath('//tr[@id="body"]/td[1]/p[1]/strong[2]/a/text()')
       setter_text = setter_text_nodes.first.text
 
-      setter_text.strip
+      /\((.+)\)/.match(setter_text)[1]
     end
 
     def extract_location(html)

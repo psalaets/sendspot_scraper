@@ -26,10 +26,10 @@ module SendspotScraper
         route.grade.should eq('5.10b')
       end
 
-      it("should pull setter from html") do
+      it("should pull setter nick from html") do
         route = @extractor.extract(@html)
 
-        route.set_by.should eq('Ryan Blah')
+        route.set_by.should eq('Ryan B')
       end
 
       it("should pull location from html") do

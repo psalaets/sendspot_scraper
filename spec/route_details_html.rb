@@ -105,7 +105,7 @@ module SendspotScraper
         </strong>
          - set by
         <strong>
-        <a href="setter?sid=18">Ryan Blah </a>
+        <a href="setter?sid=18">Ryan Blah (Ryan B)</a>
         </strong>
         </p>
         <p>

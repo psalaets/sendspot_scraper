@@ -26,25 +26,32 @@ module SendspotScraper
       route
     end
 
+    # Returns inner html String of title element.
     def title_text(html)
       title_node = html.xpath('/html/head/title').first
       title_node.inner_html
     end
 
+    # Breaks title text out into fields.
+    #
+    # title - Inner html of title element
+    #
+    # Returns Hash of Symbol to String with keys :name, :grade, :gym, :location
+    # if fields could be parsed out of title. Empty Hash otherwise.
     def parse_title(title)
       # Capture groups: name, grade, gym, location
       result = /- (.+) \((.+)\) at (.+) \((.+)\)/.match(title)
 
-      fields = {}
-
       if result
-        fields[:name] = result[1]
-        fields[:grade] = result[2]
-        fields[:gym] = result[3]
-        fields[:location] = result[4]
+        {
+          :name     => result[1],
+          :grade    => result[2],
+          :gym      => result[3],
+          :location => result[4]
+        }
+      else
+        {}
       end
-
-      fields
     end
 
     def extract_name(html)
@@ -85,8 +92,6 @@ module SendspotScraper
 
       types_text.split('/').map(&:strip)
     end
-
-    private
 
     def ensure_non_empty(nodes, field)
       raise DataExtractionError.new(field) if nodes.empty?

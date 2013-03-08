@@ -3,5 +3,6 @@ require "sendspot_scraper/route"
 require "sendspot_scraper/route_extractor"
 
 module SendspotScraper
-  # Your code goes here...
+  # Raised by extractors when given html they cannot handle.
+  class DataExtractionError < RuntimeError; end
 end

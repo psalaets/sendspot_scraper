@@ -36,9 +36,19 @@ module SendspotScraper
 
       context "when setter doesn't have nickname" do
         it("should pull setter name from html") do
-          route = @extractor.extract(SendspotScraper.route_details_html(:has_setter_nick => false))
+          html = SendspotScraper.route_details_html(:has_setter_nick => false)
+
+          route = @extractor.extract(html)
 
           route.set_by.should eq('Ryan Blah')
+        end
+      end
+
+      context "when can't find setter in html" do
+        it("should raise DataExtractionError") do
+          html = SendspotScraper.route_details_html(:has_setter_link => false)
+
+          expect { @extractor.extract(html) }.to raise_error(DataExtractionError, "route.setter")
         end
       end
 

@@ -42,16 +42,15 @@ module SendspotScraper
 
     def extract_setter(html)
       setter_text_nodes = html.xpath('//tr[@id="body"]/td[1]/p[1]/strong[2]/a/text()')
+
+      raise DataExtractionError.new("route.setter") if setter_text_nodes.empty?
+
       setter_text = setter_text_nodes.first.text
 
       nickname_match = /\((.+)\)/.match(setter_text)
-      if nickname_match
-        # Return nickname if there is one
-        nickname_match[1]
-      else
-        # Otherwise return name
-        setter_text.strip
-      end
+
+      # Return nickname if there is one or just return name
+      (nickname_match && nickname_match[1]) || setter_text.strip
     end
 
     def extract_location(html)

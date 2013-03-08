@@ -43,6 +43,10 @@ module SendspotScraper
         ""
       end
     end
+
+    def climb_types
+      types.join(' / ')
+    end
   end
 
   def self.route_details_html(values = {})
@@ -59,12 +63,12 @@ module SendspotScraper
 <meta http-equiv="Content-Language" content="en" />
 <meta http-equiv="X-UA-Compatible" content="IE=9" />
 <meta property="og:title" content="<%= name %> (<%= grade %>)" />
-             <meta property="og:description" content="Set by Ryan Blah at Earth Treks (Rockville) from theSendSpot.com" />
+             <meta property="og:description" content="Set by Ryan Blah at <%= gym %> (<%= location %>) from theSendSpot.com" />
              <meta property="og:type" content="website" />
              <meta property="og:url" content="https://secure.thesendspot.com/earthtreks/route.php?rid=3302" />
              <meta property="og:image" content="http://thesendspot.com/vc/images/theSendSpot_ogimage.png" />
              <meta property="og:site_name" content="The Send Spot" />
-             <meta property="fb:admins" content="100004070853444" /><title>The Send Spot  - <%= name %> (<%= grade %>) at Earth Treks (Rockville)</title>
+             <meta property="fb:admins" content="100004070853444" /><title>The Send Spot  - <%= name %> (<%= grade %>) at <%= gym %> (<%= location %>)</title>
 <link rel="stylesheet" href="style.css">
 <script type="text/javascript">
   var _gaq = _gaq || [];
@@ -161,7 +165,7 @@ module SendspotScraper
         </p>
         <p>
         at
-        <a href="gym?gid=3">Earth Treks (Rockville)</a>
+        <a href="gym?gid=3"><%= gym %> (<%= location %>)</a>
         </p>
         <p>
         <span id="routeRating"></span>
@@ -186,7 +190,7 @@ module SendspotScraper
             </td></tr></table>
         </p>
     <small>
-    <p><strong>Type:</strong> Lead / Top-Rope</p>
+    <p><strong>Type:</strong> <%= climb_types %></p>
     <p><strong>Color:</strong> Orange</p>
         <p><strong>Description:</strong> </p>
     </small>

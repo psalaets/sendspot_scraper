@@ -86,7 +86,7 @@ module SendspotScraper
     end
 
     def extract_types(html)
-      xpath = '//tr[@id="body"]/td[1]/div[@class="main"]/small[1]/p[1]/strong[1]/following-sibling::text()'
+      xpath = '//tr[@id="body"]/td[1]/div[@class="main"]/small[1]/p[1]/strong[text()=\'Type:\']/following-sibling::text()'
       field_from_nodes(html, "route.types", xpath) do |nodes|
         types_text = nodes.map(&:text).join.strip
         types_text.split('/').map(&:strip)

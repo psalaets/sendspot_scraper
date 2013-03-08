@@ -64,7 +64,7 @@ module SendspotScraper
         end
       end
 
-      context "when can't find setter in html" do
+      context "when can't find setter element in html" do
         it("should raise DataExtractionError") do
           html = SendspotScraper.route_details_html(:has_setter_link => false)
 
@@ -72,9 +72,17 @@ module SendspotScraper
         end
       end
 
-      context "when can't find route types in html" do
+      context "when route types is blank in html" do
         it("should raise DataExtractionError") do
           html = SendspotScraper.route_details_html(:types => [])
+
+          expect { @extractor.extract(html) }.to raise_error(DataExtractionError)
+        end
+      end
+
+      context "when can't find route types element in html" do
+        it("should raise DataExtractionError") do
+          html = SendspotScraper.route_details_html(:has_climb_types_element => false)
 
           expect { @extractor.extract(html) }.to raise_error(DataExtractionError)
         end

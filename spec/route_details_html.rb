@@ -4,7 +4,8 @@ module SendspotScraper
   class RouteDetailsValues
     attr_accessor :setter_name, :setter_nick, :has_setter_nick, :has_setter_link,
                   :gym, :location,
-                  :name, :grade, :types
+                  :name, :grade,
+                  :types, :has_climb_types_element
 
     def initialize(values = {})
       defaults = {
@@ -17,6 +18,8 @@ module SendspotScraper
         :location => 'Rockville',
         :name => 'Pity The Fool',
         :grade => '5.10b',
+
+        :has_climb_types_element => true,
         :types => ['Lead', 'Top-Rope']
       }
       values = defaults.merge(values)
@@ -42,6 +45,10 @@ module SendspotScraper
 
     def climb_types
       types.join(' / ')
+    end
+
+    def climb_types_element
+      has_climb_types_element ? "<p><strong>Type:</strong> #{climb_types}</p>" : ""
     end
   end
 
@@ -186,7 +193,7 @@ module SendspotScraper
             </td></tr></table>
         </p>
     <small>
-    <p><strong>Type:</strong> <%= climb_types %></p>
+    <%= climb_types_element %>
     <p><strong>Color:</strong> Orange</p>
         <p><strong>Description:</strong> </p>
     </small>

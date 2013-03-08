@@ -58,13 +58,13 @@ module SendspotScraper
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="Content-Language" content="en" />
 <meta http-equiv="X-UA-Compatible" content="IE=9" />
-<meta property="og:title" content="Pity The Fool (5.10b)" />
+<meta property="og:title" content="<%= name %> (<%= grade %>)" />
              <meta property="og:description" content="Set by Ryan Blah at Earth Treks (Rockville) from theSendSpot.com" />
              <meta property="og:type" content="website" />
              <meta property="og:url" content="https://secure.thesendspot.com/earthtreks/route.php?rid=3302" />
              <meta property="og:image" content="http://thesendspot.com/vc/images/theSendSpot_ogimage.png" />
              <meta property="og:site_name" content="The Send Spot" />
-             <meta property="fb:admins" content="100004070853444" /><title>The Send Spot  - Pity The Fool (5.10b) at Earth Treks (Rockville)</title>
+             <meta property="fb:admins" content="100004070853444" /><title>The Send Spot  - <%= name %> (<%= grade %>) at Earth Treks (Rockville)</title>
 <link rel="stylesheet" href="style.css">
 <script type="text/javascript">
   var _gaq = _gaq || [];
@@ -151,8 +151,8 @@ module SendspotScraper
 <STYLE> .TESTcpYearNavigation, .TESTcpMonthNavigation { background-color:#6677DD; text-align:center; vertical-align:center; text-decoration:none; color:#FFFFFF; font-weight:bold; } .TESTcpDayColumnHeader, .TESTcpYearNavigation, .TESTcpMonthNavigation, .TESTcpCurrentMonthDate, .TESTcpCurrentMonthDateDisabled, .TESTcpOtherMonthDate, .TESTcpOtherMonthDateDisabled, .TESTcpCurrentDate, .TESTcpCurrentDateDisabled, .TESTcpTodayText, .TESTcpTodayTextDisabled, .TESTcpText { font-family:arial; font-size:8pt; } TD.TESTcpDayColumnHeader { text-align:right; border:solid thin #6677DD; border-width:0 0 1 0; } .TESTcpCurrentMonthDate, .TESTcpOtherMonthDate, .TESTcpCurrentDate { text-align:right; text-decoration:none; } .TESTcpCurrentMonthDateDisabled, .TESTcpOtherMonthDateDisabled, .TESTcpCurrentDateDisabled { color:#D0D0D0; text-align:right; text-decoration:line-through; } .TESTcpCurrentMonthDate { color:#6677DD; font-weight:bold; } .TESTcpCurrentDate { color: #FFFFFF; font-weight:bold; } .TESTcpOtherMonthDate { color:#808080; } TD.TESTcpCurrentDate { color:#FFFFFF; background-color: #6677DD; border-width:1; border:solid thin #000000; } TD.TESTcpCurrentDateDisabled { border-width:1; border:solid thin #FFAAAA; } TD.TESTcpTodayText, TD.TESTcpTodayTextDisabled { border:solid thin #6677DD; border-w<STYLE> .TESTcpYearNavigation, .TESTcpMonthNavigation { background-color:#6677DD; text-align:center; vertical-align:center; text-decoration:none; color:#FFFFFF; font-weight:bold; } .TESTcpDayColumnHeader, .TESTcpYearNavigation, .TESTcpMonthNavigation, .TESTcpCurrentMonthDate, .TESTcpCurrentMonthDateDisabled, .TESTcpOtherMonthDate, .TESTcpOtherMonthDateDisabled, .TESTcpCurrentDate, .TESTcpCurrentDateDisabled, .TESTcpTodayText, .TESTcpTodayTextDisabled, .TESTcpText { font-family:arial; font-size:8pt; } TD.TESTcpDayColumnHeader { text-align:right; border:solid thin #6677DD; border-width:0 0 1 0; } .TESTcpCurrentMonthDate, .TESTcpOtherMonthDate, .TESTcpCurrentDate { text-align:right; text-decoration:none; } .TESTcpCurrentMonthDateDisabled, .TESTcpOtherMonthDateDisabled, .TESTcpCurrentDateDisabled { color:#D0D0D0; text-align:right; text-decoration:line-through; } .TESTcpCurrentMonthDate { color:#6677DD; font-weight:bold; } .TESTcpCurrentDate { color: #FFFFFF; font-weight:bold; } .TESTcpOtherMonthDate { color:#808080; } TD.TESTcpCurrentDate { color:#FFFFFF; background-color: #6677DD; border-width:1; border:solid thin #000000; } TD.TESTcpCurrentDateDisabled { border-width:1; border:solid thin #FFAAAA; } TD.TESTcpTodayText, TD.TESTcpTodayTextDisabled { border:solid thin #6677DD; border-width:1 0 0 0; } A.TESTcpTodayText, SPAN.TESTcpTodayTextDisabled { height:20px; } A.TESTcpTodayText { color:#6677DD; font-weight:bold; } SPAN.TESTcpTodayTextDisabled { color:#D0D0D0; } .TESTcpBorder { border:solid thin #6677DD; } </STYLE>
         <p>
         <strong>
-                <img src="./images/tape_orange.png" border="0">        Pity The Fool         -
-        5.10b
+                <img src="./images/tape_orange.png" border="0">        <%= name %>         -
+        <%= grade %>
         </strong>
          - set by
         <strong>
@@ -181,7 +181,7 @@ module SendspotScraper
             <tr><td>
       <div class="white_image" style="position: relative; left: 0px; top: 0px;">
         <img src="./user_images/3f03818a22db27c3eb99c81886ea12c8_rockville_large.png" width="280" height="314.61818181818">
-        <img src="images/marker.png" style="position: absolute; top: 125.23636363636px; left: 270.32727272727px;" alt="Pity The Fool">
+        <img src="images/marker.png" style="position: absolute; top: 125.23636363636px; left: 270.32727272727px;" alt="<%= name %>">
       </div>
             </td></tr></table>
         </p>

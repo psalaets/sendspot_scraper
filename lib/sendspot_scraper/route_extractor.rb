@@ -42,8 +42,7 @@ module SendspotScraper
 
     def extract_setter(html)
       setter_text_nodes = html.xpath('//tr[@id="body"]/td[1]/p[1]/strong[2]/a/text()')
-
-      raise DataExtractionError.new("route.setter") if setter_text_nodes.empty?
+      ensure_non_empty(setter_text_nodes, 'route.setter')
 
       setter_text = setter_text_nodes.first.text
 
@@ -72,6 +71,13 @@ module SendspotScraper
       types_text = types_text_nodes.map(&:text).join
 
       types_text.split('/').map(&:strip)
+    end
+
+    private
+
+    def ensure_non_empty(nodes, field)
+      raise DataExtractionError.new(field) if nodes.empty?
+      nodes
     end
   end
 end

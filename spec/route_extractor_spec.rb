@@ -6,7 +6,7 @@ module SendspotScraper
     context "#extract" do
       before :each do
         @extractor = RouteExtractor.new
-        @html = ROUTE_DETAILS_HTML
+        @html = SendspotScraper.route_details_html
       end
 
       after :each do
@@ -28,7 +28,7 @@ module SendspotScraper
 
       context "when setter has nickname" do
         it("should pull setter nick from html") do
-          route = @extractor.extract(ROUTE_DETAILS_HTML)
+          route = @extractor.extract(@html)
 
           route.set_by.should eq('Ryan B')
         end
@@ -36,7 +36,7 @@ module SendspotScraper
 
       context "when setter doesn't have nickname" do
         it("should pull setter name from html") do
-          route = @extractor.extract(ROUTE_DETAILS_HTML_NO_SETTER_NICK)
+          route = @extractor.extract(SendspotScraper.route_details_html(:has_setter_nick => false))
 
           route.set_by.should eq('Ryan Blah')
         end

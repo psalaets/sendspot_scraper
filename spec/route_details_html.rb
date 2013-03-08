@@ -1,4 +1,45 @@
+require 'erb'
+
 module SendspotScraper
+  class RouteDetailsValues
+    attr_accessor :setter_name, :setter_nick, :has_setter_nick,
+                  :gym, :location,
+                  :name, :grade, :types
+
+    def initialize(values = {})
+      defaults = {
+        :has_setter_nick => true,
+        :setter_name => 'Ryan Blah',
+        :setter_nick => 'Ryan B',
+        :gym => 'Earth Treks',
+        :location => 'Rockville',
+        :name => 'Pity The Fool',
+        :grade => '5.10b',
+        :types => ['Lead', 'Top-Rope']
+      }
+      values = defaults.merge(values)
+
+      values.each do |k, v|
+        self.__send__("#{k}=", v)
+      end
+    end
+
+    def the_binding
+      binding
+    end
+
+    def setter
+      str = "#{setter_name} "
+      str << "(#{setter_nick})" if has_setter_nick
+      str
+    end
+  end
+
+  def self.route_details_html(values = {})
+    params = RouteDetailsValues.new(values)
+    ERB.new(ROUTE_DETAILS_HTML).result(params.the_binding)
+  end
+
   # Taken from https://secure.thesendspot.com/earthtreks/route?rid=3302
   # on 2013-03-07
   ROUTE_DETAILS_HTML =<<HTML
@@ -105,7 +146,7 @@ module SendspotScraper
         </strong>
          - set by
         <strong>
-        <a href="setter?sid=18">Ryan Blah (Ryan B)</a>
+        <a href="setter?sid=18"><%= setter %></a>
         </strong>
         </p>
         <p>

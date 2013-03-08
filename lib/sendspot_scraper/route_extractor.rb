@@ -26,18 +26,35 @@ module SendspotScraper
       route
     end
 
-    def extract_name(html)
-      name_grade_text_nodes = html.xpath('//tr[@id="body"]/td[1]/p[1]/strong[1]/child::text()')
-      text = name_grade_text_nodes.map(&:text).join
+    def title_text(html)
+      title_node = html.xpath('/html/head/title').first
+      title_node.inner_html
+    end
 
-      text.split('-').first.strip
+    def parse_title(title)
+      # Capture groups: name, grade, gym, location
+      result = /- (.+) \((.+)\) at (.+) \((.+)\)/.match(title)
+
+      fields = {}
+
+      if result
+        fields[:name] = result[1]
+        fields[:grade] = result[2]
+        fields[:gym] = result[3]
+        fields[:location] = result[4]
+      end
+
+      fields
+    end
+
+    def extract_name(html)
+      title = title_text(html)
+      parse_title(title)[:name]
     end
 
     def extract_grade(html)
-      name_grade_text_nodes = html.xpath('//tr[@id="body"]/td[1]/p[1]/strong[1]/child::text()')
-      text = name_grade_text_nodes.map(&:text).join
-
-      text.split('-').last.strip
+      title = title_text(html)
+      parse_title(title)[:grade]
     end
 
     def extract_setter(html)
@@ -53,17 +70,13 @@ module SendspotScraper
     end
 
     def extract_location(html)
-      location_text_nodes = html.xpath('//tr[@id="body"]/td[1]/p[2]/a/text()')
-      location_text = location_text_nodes.first.text
-
-      /\((\w+)\)/.match(location_text)[1]
+      title = title_text(html)
+      parse_title(title)[:location]
     end
 
     def extract_gym(html)
-      gym_text_nodes = html.xpath('//tr[@id="body"]/td[1]/p[2]/a/text()')
-      gym_text = gym_text_nodes.first.text
-
-      /(.+)\(/.match(gym_text)[1].strip
+      title = title_text(html)
+      parse_title(title)[:gym]
     end
 
     def extract_types(html)

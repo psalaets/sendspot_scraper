@@ -57,10 +57,20 @@ module SendspotScraper
           route.gym.should eq('Earth Treks')
         end
 
-        it("should pull climb types from html") do
-          route = @extractor.extract(@fully_populated_html)
+        context "when route is for roped climbing" do
+          it("should pull climb types from html") do
+            route = @extractor.extract(@fully_populated_html)
 
-          Set.new(route.types).should eq(Set.new(['Lead', 'Top-Rope']))
+            Set.new(route.types).should eq(Set.new(['Lead', 'Top-Rope']))
+          end
+        end
+
+        context "when route is a bouldering problem" do
+          it("should pull climb type from html") do
+            route = @extractor.extract(SendspotScraper.route_details_html(:types => ['Bouldering Problem']))
+
+            Set.new(route.types).should eq(Set.new(['Bouldering Problem']))
+          end
         end
       end
 

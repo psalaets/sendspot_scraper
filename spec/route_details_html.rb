@@ -3,7 +3,7 @@ require 'erb'
 module SendspotScraper
   class RouteDetailsValues
     attr_accessor :setter_name, :setter_nick, :has_setter_nick, :has_setter_link,
-                  :gym, :location,
+                  :gym, :location, :has_location,
                   :name, :grade,
                   :types, :has_climb_types_element
 
@@ -16,6 +16,8 @@ module SendspotScraper
 
         :gym => 'Earth Treks',
         :location => 'Rockville',
+        :has_location => true,
+
         :name => 'Pity The Fool',
         :grade => '5.10b',
 
@@ -50,6 +52,10 @@ module SendspotScraper
     def climb_types_element
       has_climb_types_element ? "<p><strong>Type:</strong> #{climb_types}</p>" : ""
     end
+
+    def location_in_parens
+      "(#{location})" if has_location
+    end
   end
 
   def self.route_details_html(values = {})
@@ -66,12 +72,12 @@ module SendspotScraper
 <meta http-equiv="Content-Language" content="en" />
 <meta http-equiv="X-UA-Compatible" content="IE=9" />
 <meta property="og:title" content="<%= name %> (<%= grade %>)" />
-             <meta property="og:description" content="Set by Ryan Blah at <%= gym %> (<%= location %>) from theSendSpot.com" />
+             <meta property="og:description" content="Set by Ryan Blah at <%= gym %> <%= location_in_parens %> from theSendSpot.com" />
              <meta property="og:type" content="website" />
              <meta property="og:url" content="https://secure.thesendspot.com/earthtreks/route.php?rid=3302" />
              <meta property="og:image" content="http://thesendspot.com/vc/images/theSendSpot_ogimage.png" />
              <meta property="og:site_name" content="The Send Spot" />
-             <meta property="fb:admins" content="100004070853444" /><title>The Send Spot  - <%= name %> (<%= grade %>) at <%= gym %> (<%= location %>)</title>
+             <meta property="fb:admins" content="100004070853444" /><title>The Send Spot  - <%= name %> (<%= grade %>) at <%= gym %> <%= location_in_parens %></title>
 <link rel="stylesheet" href="style.css">
 <script type="text/javascript">
   var _gaq = _gaq || [];
@@ -168,7 +174,7 @@ module SendspotScraper
         </p>
         <p>
         at
-        <a href="gym?gid=3"><%= gym %> (<%= location %>)</a>
+        <a href="gym?gid=3"><%= gym %> <%= location_in_parens %></a>
         </p>
         <p>
         <span id="routeRating"></span>

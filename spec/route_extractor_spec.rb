@@ -87,6 +87,40 @@ module SendspotScraper
           expect { @extractor.extract(html) }.to raise_error(DataExtractionError)
         end
       end
+
+      context "when name is blank in html" do
+        it("should raise DataExtractionError") do
+          html = SendspotScraper.route_details_html(:name => '')
+
+          expect { @extractor.extract(html) }.to raise_error(DataExtractionError)
+        end
+      end
+
+      context "when grade is blank in html" do
+        it("should raise DataExtractionError") do
+          html = SendspotScraper.route_details_html(:grade => '')
+
+          expect { @extractor.extract(html) }.to raise_error(DataExtractionError)
+        end
+      end
+
+      context "when gym is blank in html" do
+        it("should raise DataExtractionError") do
+          html = SendspotScraper.route_details_html(:gym => '')
+
+          expect { @extractor.extract(html) }.to raise_error(DataExtractionError)
+        end
+      end
+
+      context "when location is blank in html" do
+        it("should return route with nil location") do
+          html = SendspotScraper.route_details_html(:has_location => false)
+
+          route = @extractor.extract(html)
+
+          route.location.should be_nil
+        end
+      end
     end
   end
 end

@@ -40,17 +40,19 @@ module SendspotScraper
     # if fields could be parsed out of title. Empty Hash otherwise.
     def parse_title(title)
       # Capture groups: name, grade, gym, location
-      result = /- (.+) \((.+)\) at (.+) \((.+)\)/.match(title)
+      result = /- (.+) \((.+)\) at (.+) (\((.+)\))?/.match(title)
 
       if result
         {
           :name     => result[1],
           :grade    => result[2],
           :gym      => result[3],
-          :location => result[4]
+          # Group 4 is wrapper parens around optional location
+          # Group 5 is the location with no parens
+          :location => result[5]
         }
       else
-        {}
+        raise DataExtractionError.new("title on route details page")
       end
     end
 

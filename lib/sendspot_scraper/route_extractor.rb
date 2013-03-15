@@ -28,7 +28,7 @@ module SendspotScraper
 
     # Returns inner html String of title element.
     def title_text(html)
-      raise DataExtractionError.new("title on route details page") unless html.title
+      raise DataExtractionError.new("no title on route details page") unless html.title
       html.title
     end
 

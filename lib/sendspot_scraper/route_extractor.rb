@@ -28,8 +28,8 @@ module SendspotScraper
 
     # Returns inner html String of title element.
     def title_text(html)
-      title_node = html.xpath('/html/head/title').first
-      title_node.inner_html
+      raise DataExtractionError.new("title on route details page") unless html.title
+      html.title
     end
 
     # Breaks title text out into fields.

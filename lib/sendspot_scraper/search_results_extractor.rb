@@ -1,7 +1,13 @@
 require 'nokogiri'
 
 module SendspotScraper
+  # Extracts route metadata from route search results html.
   class SearchResultsExtractor
+    # Public: Pulls route id and url path from route search results html.
+    #
+    # html - HTML String of search results page.
+    #
+    # Returns Array of Hashes, one per route, with keys :id, :href.
     def extract(html)
       html = Nokogiri::HTML(html)
 
@@ -17,18 +23,21 @@ module SendspotScraper
 
     private
 
+    # Helper for finding the form with name="sendMode".
     def send_mode_form(html)
       form = html.xpath('//div[@class="main"]/form').first
       raise DataExtractionError.new('form[@name="sendMode"] not found') unless form
       form
     end
 
+    # Pull route id from href of route link.
     def id_from_href(href)
       query_string = href.split('?').last
-      pairs = query_string.split('&').reduce({}) do |hash, pair|
+
+      pairs = {}
+      query_string.split('&').each do |pair|
         name, value = pair.split('=')
-        hash[name] = value
-        hash
+        pairs[name] = value
       end
       pairs['rid']
     end

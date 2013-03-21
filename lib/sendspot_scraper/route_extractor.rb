@@ -89,11 +89,15 @@ module SendspotScraper
 
     def extract_types(html)
       xpath = '//tr[@id="body"]/td[1]/div[@class="main"]/small[1]/p[1]/strong[text()=\'Type:\']/following-sibling::text()'
-      field_from_nodes(html, "route.types", xpath) do |nodes|
+      type_strings = field_from_nodes(html, "route.types", xpath) do |nodes|
         types_text = nodes.map(&:text).join.strip
         types_text.split('/').map(&:strip)
       end
+
+      detect_types(type_strings)
     end
+
+    private
 
     def field_from_nodes(html, field_name, xpath)
       nodes = html.xpath(xpath)
@@ -102,6 +106,19 @@ module SendspotScraper
       field = yield(nodes)
       raise DataExtractionError.new("#{field_name} was empty") if field.empty?
       field
+    end
+
+    def detect_types(type_strings)
+      type_strings.map do |string|
+        case string
+        when /lead/i
+          :lead
+        when /top/i
+          :toprope
+        when /boulder/i
+          :boulder
+        end
+      end
     end
   end
 end

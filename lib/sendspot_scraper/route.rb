@@ -22,8 +22,8 @@ module SendspotScraper
     # City of the gym the route is at.
     attr_accessor :location
 
-    # Array indicating what type of climbing this allows. Any of:
-    # Boulder, Lead, Top Rope
+    # Array indicating what type of climbing this allows. Array containing any
+    # of :boulder, :lead, :toprope
     attr_reader :types
 
     def initialize

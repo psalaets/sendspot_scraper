@@ -61,7 +61,7 @@ module SendspotScraper
           it("should pull climb types from html") do
             route = @extractor.extract(@fully_populated_html)
 
-            Set.new(route.types).should eq(Set.new(['Lead', 'Top-Rope']))
+            Set.new(route.types).should eq(Set.new([:lead, :toprope]))
           end
         end
 
@@ -69,7 +69,7 @@ module SendspotScraper
           it("should pull climb type from html") do
             route = @extractor.extract(SendspotScraper.route_details_html(:types => ['Bouldering Problem']))
 
-            Set.new(route.types).should eq(Set.new(['Bouldering Problem']))
+            Set.new(route.types).should eq(Set.new([:boulder]))
           end
         end
 
@@ -77,7 +77,7 @@ module SendspotScraper
           it("should pull climb type from html") do
             route = @extractor.extract(SendspotScraper.route_details_html(:types => ['Lead Only']))
 
-            Set.new(route.types).should eq(Set.new(['Lead Only']))
+            Set.new(route.types).should eq(Set.new([:lead]))
           end
         end
 
@@ -85,7 +85,7 @@ module SendspotScraper
           it("should pull climb type from html") do
             route = @extractor.extract(SendspotScraper.route_details_html(:types => ['Top-Rope Only']))
 
-            Set.new(route.types).should eq(Set.new(['Top-Rope Only']))
+            Set.new(route.types).should eq(Set.new([:toprope]))
           end
         end
       end

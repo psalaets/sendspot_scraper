@@ -72,6 +72,22 @@ module SendspotScraper
             Set.new(route.types).should eq(Set.new(['Bouldering Problem']))
           end
         end
+
+        context "when route is lead only" do
+          it("should pull climb type from html") do
+            route = @extractor.extract(SendspotScraper.route_details_html(:types => ['Lead Only']))
+
+            Set.new(route.types).should eq(Set.new(['Lead Only']))
+          end
+        end
+
+        context "when route is top rope only" do
+          it("should pull climb type from html") do
+            route = @extractor.extract(SendspotScraper.route_details_html(:types => ['Top-Rope Only']))
+
+            Set.new(route.types).should eq(Set.new(['Top-Rope Only']))
+          end
+        end
       end
 
       context "when can't find setter element in html" do

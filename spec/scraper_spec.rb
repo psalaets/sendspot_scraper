@@ -10,7 +10,6 @@ module SendspotScraper
       client.stub(:route_details) { |id| "route details" }
       client.stub(:id_from_route_url) { |id| "route/#{id}" }
 
-
       @search_results_extractor = double('search_results_extractor')
       @search_results_extractor.stub(:extract) { |html| ['routes/3'] }
 

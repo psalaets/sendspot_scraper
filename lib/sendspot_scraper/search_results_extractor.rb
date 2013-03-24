@@ -3,11 +3,11 @@ require 'nokogiri'
 module SendspotScraper
   # Extracts route metadata from route search results html.
   class SearchResultsExtractor
-    # Public: Pulls route id and url path from route search results html.
+    # Public: Pulls route url path from route search results html.
     #
     # html - HTML String of search results page.
     #
-    # Returns Array of Hashes, one per route, with keys :id, :href.
+    # Returns Array of href values, one per route.
     def extract(html)
       html = Nokogiri::HTML(html)
 

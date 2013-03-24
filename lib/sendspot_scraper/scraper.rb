@@ -9,6 +9,9 @@ module SendspotScraper
     # Hook invoked when a new route is found. Proc is passed the a
     # SendspotScrape::Route.
     attr_writer :new_route_hook
+    # Hook invoked when there is an error during scraping. Proc is passed the
+    # relevant Error.
+    attr_writer :scrape_error_hook
 
     # Helper that pulls route metadata from route search results html.
     attr_writer :search_results_extractor
@@ -20,6 +23,7 @@ module SendspotScraper
 
       @route_exists_hook = lambda {|id| false}
       @new_route_hook = lambda {|r|}
+      @scrape_error_hook = lambda {|e|}
     end
 
     def scrape(days_old = 7)
@@ -34,6 +38,9 @@ module SendspotScraper
           new_route(route)
         end
       end
+
+    rescue DataExtractionError => e
+      scrape_error(e)
     end
 
     def search_results_extractor
@@ -52,6 +59,10 @@ module SendspotScraper
 
     def new_route(route)
       @new_route_hook.call(route)
+    end
+
+    def scrape_error(error)
+      @scrape_error_hook.call(error)
     end
   end
 end

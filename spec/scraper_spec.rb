@@ -9,20 +9,20 @@ module SendspotScraper
       client.stub(:recent_routes) { |days| "search results" }
       client.stub(:route_details) { |id| "route details" }
 
-      search_results_extractor = double('search_results_extractor')
-      search_results_extractor.stub(:extract) do |html|
+      @search_results_extractor = double('search_results_extractor')
+      @search_results_extractor.stub(:extract) do |html|
         [{:href => 'routes/3', :id => '3'}]
       end
 
-      route_extractor = double('route_extractor')
-      route_extractor.stub(:extract) { |html| Route.new }
+      @route_extractor = double('route_extractor')
+      @route_extractor.stub(:extract) { |html| Route.new }
 
       @scraper = Scraper.new(client)
-      @scraper.search_results_extractor = search_results_extractor
-      @scraper.route_extractor = route_extractor
+      @scraper.search_results_extractor = @search_results_extractor
+      @scraper.route_extractor = @route_extractor
     end
 
-    it "invokes new route hook when route doesn't exist" do
+    it "should invoke new route hook when route doesn't exist" do
       invoked_hook = false
 
       @scraper.route_exists_hook = lambda { |id| false }
@@ -33,7 +33,7 @@ module SendspotScraper
       invoked_hook.should be_true
     end
 
-    it "doesn't invoke new route hook when route exists" do
+    it "should not invoke new route hook when route exists" do
       invoked_hook = false
 
       @scraper.route_exists_hook = lambda { |id| true }
@@ -42,6 +42,32 @@ module SendspotScraper
       @scraper.scrape
 
       invoked_hook.should be_false
+    end
+
+    it "should invoke error hook when search results extractor raises error" do
+      @search_results_extractor.stub(:extract) do |html|
+        raise DataExtractionError, "the message"
+      end
+
+      error = nil
+      @scraper.scrape_error_hook = lambda { |e| error = e }
+
+      @scraper.scrape
+
+      error.message.should eq('the message')
+    end
+
+    it "should invoke error hook when route extractor raises error" do
+      @route_extractor.stub(:extract) do |html|
+        raise DataExtractionError, "the message"
+      end
+
+      error = nil
+      @scraper.scrape_error_hook = lambda { |e| error = e }
+
+      @scraper.scrape
+
+      error.message.should eq('the message')
     end
   end
 end

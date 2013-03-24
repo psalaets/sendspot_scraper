@@ -18,7 +18,7 @@ module SendspotScraper
     #
     # Returns String of route search page html, newest routes first.
     def recent_routes(days_old)
-      recent_routes_url(days_old).read
+      recent_routes_uri(days_old).read
     end
 
     # Public: Gets html of route details page.
@@ -27,12 +27,27 @@ module SendspotScraper
     #
     # Returns String of route details html.
     def route_details(id)
-      route_url(id).read
+      route_uri(id).read
+    end
+
+    def route_url(id)
+      route_uri(id).to_s
+    end
+
+    def id_from_route_url(url)
+      query_string = URI(url).query
+
+      pairs = {}
+      query_string.split('&').each do |pair|
+        name, value = pair.split('=')
+        pairs[name] = value
+      end
+      pairs['rid']
     end
 
     private
 
-    def recent_routes_url(days_old)
+    def recent_routes_uri(days_old)
       date_range = {
         :start_date => (Date.today - days_old).to_s,
         :end_date => Date.today.to_s
@@ -62,7 +77,7 @@ module SendspotScraper
       query.map { |k, v| "#{k}=#{v}" }.join('&')
     end
 
-    def route_url(id)
+    def route_uri(id)
       URI("#{base_url}route?rid=#{id}")
     end
 

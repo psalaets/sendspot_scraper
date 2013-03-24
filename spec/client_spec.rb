@@ -19,5 +19,14 @@ module SendspotScraper
 
       id.should eq('20')
     end
+
+    it "should pull route id from relative route url" do
+      location_id = 5
+      client = Client.new('gym', location_id)
+
+      id = client.id_from_route_url('./route?rid=21')
+
+      id.should eq('21')
+    end
   end
 end

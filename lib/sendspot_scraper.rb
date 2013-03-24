@@ -2,6 +2,7 @@ require "sendspot_scraper/version"
 require "sendspot_scraper/route"
 require "sendspot_scraper/route_extractor"
 require "sendspot_scraper/search_results_extractor"
+require "sendspot_scraper/client"
 require "sendspot_scraper/scraper"
 
 module SendspotScraper

@@ -15,10 +15,7 @@ module SendspotScraper
         it("should pull route url and ids from html") do
           routes = @extractor.extract(SendspotScraper.search_results_html)
 
-          routes.should eq([
-            {:href => './route?rid=3302', :id => '3302'},
-            {:href => './route?rid=3260', :id => '3260'},
-          ])
+          routes.should eq(['./route?rid=3302', './route?rid=3260'])
         end
       end
 

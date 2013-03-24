@@ -14,10 +14,7 @@ module SendspotScraper
       # The html contains a <p> around the table but that isn't technically
       # legal and Nokogiri changes it to <p></p><table>...</table>
       send_mode_form(html).xpath('table/tr/td/a[1]').map do |a|
-        {
-          :id => id_from_href(a[:href]),
-          :href => a[:href]
-        }
+        a[:href]
       end
     end
 
@@ -28,18 +25,6 @@ module SendspotScraper
       form = html.xpath('//div[@class="main"]/form').first
       raise DataExtractionError.new('form[@name="sendMode"] not found') unless form
       form
-    end
-
-    # Pull route id from href of route link.
-    def id_from_href(href)
-      query_string = href.split('?').last
-
-      pairs = {}
-      query_string.split('&').each do |pair|
-        name, value = pair.split('=')
-        pairs[name] = value
-      end
-      pairs['rid']
     end
   end
 end

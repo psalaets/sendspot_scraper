@@ -28,11 +28,12 @@ module SendspotScraper
 
     def scrape(days_old = 7)
       search_results_html = @client.recent_routes(days_old)
-      routes_metadata = search_results_extractor.extract(search_results_html)
+      hrefs = search_results_extractor.extract(search_results_html)
 
-      routes_metadata.each do |metadata|
-        unless route_exists(metadata[:id])
-          route_details_html = @client.route_details(metadata[:id])
+      hrefs.each do |href|
+        id = @client.id_from_route_url(href)
+        unless route_exists(id)
+          route_details_html = @client.route_details(id)
           route = route_extractor.extract(route_details_html)
 
           new_route(route)

@@ -8,11 +8,11 @@ module SendspotScraper
       client = double('client')
       client.stub(:recent_routes) { |days| "search results" }
       client.stub(:route_details) { |id| "route details" }
+      client.stub(:id_from_route_url) { |id| "route/#{id}" }
+
 
       @search_results_extractor = double('search_results_extractor')
-      @search_results_extractor.stub(:extract) do |html|
-        [{:href => 'routes/3', :id => '3'}]
-      end
+      @search_results_extractor.stub(:extract) { |html| ['routes/3'] }
 
       @route_extractor = double('route_extractor')
       @route_extractor.stub(:extract) { |html| Route.new }

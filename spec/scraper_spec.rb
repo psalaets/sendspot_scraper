@@ -71,7 +71,7 @@ module SendspotScraper
 
     it "should invoke error hook when client raises error" do
       @client.stub(:recent_routes) do |days|
-        raise RuntimeError, "the message"
+        raise "the message"
       end
 
       error = nil

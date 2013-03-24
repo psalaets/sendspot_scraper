@@ -40,7 +40,7 @@ module SendspotScraper
         end
       end
 
-    rescue RuntimeError => e
+    rescue => e
       scrape_error(e)
     end
 

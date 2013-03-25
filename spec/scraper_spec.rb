@@ -8,7 +8,8 @@ module SendspotScraper
       @client = double('@client')
       @client.stub(:recent_routes) { |days| "search results" }
       @client.stub(:route_details) { |id| "route details" }
-      @client.stub(:id_from_route_url) { |id| "route/#{id}" }
+      @client.stub(:id_from_route_url) { |url| "3" }
+      @client.stub(:route_url) { |id| "routes/3" }
 
       @search_results_extractor = double('search_results_extractor')
       @search_results_extractor.stub(:extract) { |html| ['routes/3'] }
@@ -23,6 +24,17 @@ module SendspotScraper
 
     context "finds route that doesn't already exist" do
       it "should invoke new route hook" do
+        hook_invoked = false
+
+        @scraper.route_exists_hook = lambda { |id| false }
+        @scraper.new_route_hook = lambda { |r| hook_invoked = true }
+
+        @scraper.scrape
+
+        hook_invoked.should be_true
+      end
+
+      it "should pass new Route to new route hook" do
         route = nil
 
         @scraper.route_exists_hook = lambda { |id| false }
@@ -30,7 +42,8 @@ module SendspotScraper
 
         @scraper.scrape
 
-        route.should_not be_nil
+        route.id.should eq('3')
+        route.url.should eq('routes/3')
       end
     end
 

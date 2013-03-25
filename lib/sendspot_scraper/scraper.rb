@@ -35,6 +35,8 @@ module SendspotScraper
         unless route_exists(id)
           route_details_html = @client.route_details(id)
           route = route_extractor.extract(route_details_html)
+          route.id = id
+          route.url = @client.route_url(id)
 
           new_route(route)
         end

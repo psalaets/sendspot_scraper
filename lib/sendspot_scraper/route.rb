@@ -16,9 +16,6 @@ module SendspotScraper
     # Who set the route.
     attr_accessor :set_by
 
-    # DateTime of when route was recorded (not necessarily set date).
-    attr_accessor :created_at
-
     # What gym the route is at.
     attr_accessor :gym
 

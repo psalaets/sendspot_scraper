@@ -21,26 +21,30 @@ module SendspotScraper
       @scraper.route_extractor = @route_extractor
     end
 
-    it "should invoke new route hook when route doesn't exist" do
-      invoked_hook = false
+    context "finds route that doesn't already exist" do
+      it "should invoke new route hook" do
+        route = nil
 
-      @scraper.route_exists_hook = lambda { |id| false }
-      @scraper.new_route_hook = lambda { |r| invoked_hook = true }
+        @scraper.route_exists_hook = lambda { |id| false }
+        @scraper.new_route_hook = lambda { |r| route = r }
 
-      @scraper.scrape
+        @scraper.scrape
 
-      invoked_hook.should be_true
+        route.should_not be_nil
+      end
     end
 
-    it "should not invoke new route hook when route exists" do
-      invoked_hook = false
+    context "finds route that already exists" do
+      it "should not invoke new route hook" do
+        invoked_hook = false
 
-      @scraper.route_exists_hook = lambda { |id| true }
-      @scraper.new_route_hook = lambda { |r| invoked_hook = true }
+        @scraper.route_exists_hook = lambda { |id| true }
+        @scraper.new_route_hook = lambda { |r| invoked_hook = true }
 
-      @scraper.scrape
+        @scraper.scrape
 
-      invoked_hook.should be_false
+        invoked_hook.should be_false
+      end
     end
 
     it "should invoke error hook when search results extractor raises error" do

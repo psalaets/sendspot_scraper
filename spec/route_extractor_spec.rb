@@ -33,6 +33,12 @@ module SendspotScraper
           route.grade.should eq('5.10b')
         end
 
+        it("should pull V Intro grade from html") do
+          route = @extractor.extract(SendspotScraper.route_details_html(:grade => 'V Intro'))
+
+          route.grade.should eq('V Intro')
+        end
+
         context "when setter has nickname" do
           it("should pull setter nick from html") do
             route = @extractor.extract(@fully_populated_html)

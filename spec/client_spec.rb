@@ -2,9 +2,16 @@ require 'spec_helper'
 
 module SendspotScraper
   describe Client do
+    it "should require :gym" do
+      expect { Client.new(:location_id => 5) }.to raise_error(ArgumentError)
+    end
+
+    it "should require :location_id" do
+      expect { Client.new(:gym => 'blah') }.to raise_error(ArgumentError)
+    end
+
     it "should generate route url from route id" do
-      location_id = 5
-      client = Client.new('gym', location_id)
+      client = Client.new(:gym => 'gym', :location_id => 5)
 
       url = client.route_url('20')
 
@@ -12,8 +19,7 @@ module SendspotScraper
     end
 
     it "should pull route id from full route url" do
-      location_id = 5
-      client = Client.new('gym', location_id)
+      client = Client.new(:gym => 'gym', :location_id => 5)
 
       id = client.id_from_route_url('https://secure.thesendspot.com/gym/route?rid=20')
 
@@ -21,8 +27,7 @@ module SendspotScraper
     end
 
     it "should pull route id from relative route url" do
-      location_id = 5
-      client = Client.new('gym', location_id)
+      client = Client.new(:gym => 'gym', :location_id => 5)
 
       id = client.id_from_route_url('./route?rid=21')
 

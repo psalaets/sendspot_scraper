@@ -5,11 +5,20 @@ module SendspotScraper
   class Client
     # Public: Create a new client.
     #
-    # gym         - Gym name as abbreviated by send spot, e.g. 'earthtreks'.
-    # location_id - Location id typically used by send spot as 'gid', e.g. 1.
-    def initialize(gym, location_id)
-      @gym = gym
-      @location_id = location_id
+    # options - Hash of Client config options which are:
+    #
+    # :gym         - Required, gym name as abbreviated by send spot, e.g.
+    #                'earthtreks'.
+    # :location_id - Required, location id typically used by send spot as 'gid',
+    #                e.g. 1.
+    # :verbose     - Optional, true to print urls visited, defaults to false.
+    def initialize(options = {})
+      raise ArgumentError.new(':gym is required') unless options[:gym]
+      raise ArgumentError.new(':location_id is required') unless options[:location_id]
+
+      @gym = options[:gym]
+      @location_id = options[:location_id]
+      @verbose = options[:verbose] || false
     end
 
     # Public: Gets html of routes search page.
@@ -18,7 +27,7 @@ module SendspotScraper
     #
     # Returns String of route search page html, newest routes first.
     def recent_routes(days_old)
-      recent_routes_uri(days_old).read
+      visit(recent_routes_uri(days_old))
     end
 
     # Public: Gets html of route details page.
@@ -27,7 +36,7 @@ module SendspotScraper
     #
     # Returns String of route details html.
     def route_details(id)
-      route_uri(id).read
+      visit(route_uri(id))
     end
 
     def route_url(id)
@@ -46,6 +55,11 @@ module SendspotScraper
     end
 
     private
+
+    def visit(uri)
+      puts "Visiting #{uri}" if @verbose
+      uri.read
+    end
 
     def recent_routes_uri(days_old)
       date_range = {

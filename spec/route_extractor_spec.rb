@@ -21,6 +21,12 @@ module SendspotScraper
           route.name.should eq('Pity The Fool')
         end
 
+        it("should pull route name from html and trim extra whitespace") do
+          route = @extractor.extract(SendspotScraper.route_details_html(:name => '   Pity The Fool   '))
+
+          route.name.should eq('Pity The Fool')
+        end
+
         it("should pull grade from html") do
           route = @extractor.extract(@fully_populated_html)
 

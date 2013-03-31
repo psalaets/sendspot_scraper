@@ -58,7 +58,7 @@ module SendspotScraper
 
     def extract_name(html)
       title = title_text(html)
-      parse_title(title)[:name]
+      parse_title(title)[:name].strip
     end
 
     def extract_grade(html)

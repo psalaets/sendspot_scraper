@@ -36,6 +36,7 @@ module SendspotScraper
           route_details_html = @client.route_details(id)
           route = route_extractor.extract(route_details_html)
           route.id = id
+          # Generate url from id instead of using href to be sure it's absolute
           route.url = @client.route_url(id)
 
           new_route(route)

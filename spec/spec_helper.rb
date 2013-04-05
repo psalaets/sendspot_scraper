@@ -1,6 +1,7 @@
 require 'sendspot_scraper'
 require 'route_details_html'
 require 'search_results_html'
+require 'routes_rss'
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true

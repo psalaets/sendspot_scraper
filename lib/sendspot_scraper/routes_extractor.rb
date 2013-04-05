@@ -24,6 +24,11 @@ module SendspotScraper
       route.id = link_parts[:rid]
       route.url = link_parts[:url]
 
+      description = item > 'description'
+      desc_parts = parse_description(description.text)
+
+      route.types.push(*desc_parts[:types])
+
       [route]
     end
 
@@ -91,6 +96,27 @@ module SendspotScraper
         pairs[name] = value
       end
       pairs['rid']
+    end
+
+    def parse_description(description)
+      types = description.split('at').first.strip.split('/')
+
+      {
+        :types => detect_types(types)
+      }
+    end
+
+    def detect_types(type_strings)
+      type_strings.map do |string|
+        case string
+        when /lead/i
+          :lead
+        when /top/i
+          :toprope
+        when /boulder/i
+          :boulder
+        end
+      end
     end
   end
 end

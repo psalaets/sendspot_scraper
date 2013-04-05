@@ -67,5 +67,37 @@ module SendspotScraper
 
       routes.first.id.should eq('3614')
     end
+
+    context "when route is for roped climbing" do
+      it("should read all climb types") do
+        routes = @extractor.extract(SendspotScraper.routes_rss(:lead_toprope))
+
+        Set.new(routes.first.types).should eq(Set.new([:toprope, :lead]))
+      end
+    end
+
+    context "when route is a bouldering problem" do
+      it("should read climb type") do
+        routes = @extractor.extract(SendspotScraper.routes_rss(:boulder))
+
+        Set.new(routes.first.types).should eq(Set.new([:boulder]))
+      end
+    end
+
+    context "when route is lead only" do
+      it("should read climb type") do
+        routes = @extractor.extract(SendspotScraper.routes_rss(:lead))
+
+        Set.new(routes.first.types).should eq(Set.new([:lead]))
+      end
+    end
+
+    context "when route is top rope only" do
+      it("should read climb type") do
+        routes = @extractor.extract(SendspotScraper.routes_rss(:toprope))
+
+        Set.new(routes.first.types).should eq(Set.new([:toprope]))
+      end
+    end
   end
 end

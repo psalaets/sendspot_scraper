@@ -6,8 +6,16 @@ module SendspotScraper
     def extract(rss)
       doc = Nokogiri::XML(rss)
 
-      item = doc.xpath('/rss/channel/item')
+      items = doc.xpath('/rss/channel/item')
+      items.map do |item|
+        parse_item(item)
+      end
+    end
 
+    private
+
+    def parse_item(item)
+      # Read name, grade, setter, location and gym from title.
       title = item > 'title'
       title_parts = parse_title(title.text)
 
@@ -18,21 +26,21 @@ module SendspotScraper
       route.location = title_parts[:location]
       route.gym = title_parts[:gym]
 
+      # Read url and rid from link.
       link = item > 'link'
       link_parts = parse_link(link.text)
 
       route.id = link_parts[:rid]
       route.url = link_parts[:url]
 
+      # Read climb types from description.
       description = item > 'description'
       desc_parts = parse_description(description.text)
 
       route.types.push(*desc_parts[:types])
 
-      [route]
+      route
     end
-
-    private
 
     def parse_title(title)
       front, middle, back = title.split('-')

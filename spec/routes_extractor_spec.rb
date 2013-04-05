@@ -99,5 +99,13 @@ module SendspotScraper
         Set.new(routes.first.types).should eq(Set.new([:toprope]))
       end
     end
+
+    it "should return a Route for each item" do
+      routes = @extractor.extract(SendspotScraper.routes_rss(:boulder, :lead))
+
+      routes.length.should eq(2)
+      routes[0].name.should eq('Bad Puppy')
+      routes[1].name.should eq('Mama Rock Me')
+    end
   end
 end

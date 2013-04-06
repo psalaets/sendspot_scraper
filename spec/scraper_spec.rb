@@ -3,78 +3,56 @@ require 'spec_helper'
 module SendspotScraper
   describe Scraper do
     before :each do
-      # Client stand-in that doesn't return valid html. The extractors are faked
-      # so the html doesn't matter.
+      # Client stand-in that doesn't return valid xml. The extractor is faked
+      # so the xml doesn't matter.
       @client = double('@client')
       @client.stub(:recent_routes) { |days| "search results" }
-      @client.stub(:route_details) { |id| "route details" }
-      @client.stub(:id_from_route_url) { |url| "3" }
-      @client.stub(:route_url) { |id| "routes/3" }
 
-      @search_results_extractor = double('search_results_extractor')
-      @search_results_extractor.stub(:extract) { |html| ['routes/3'] }
-
-      @route_extractor = double('route_extractor')
-      @route_extractor.stub(:extract) { |html| Route.new }
+      @routes_extractor = double('routes extractor')
+      @routes_extractor.stub(:extract) do |xml|
+        1.upto(2).map do |i|
+          route = Route.new
+          route.id = "id #{i}"
+          route.name = "name #{i}"
+          route.url = "url #{i}"
+          route
+        end
+      end
 
       @scraper = Scraper.new(@client)
-      @scraper.search_results_extractor = @search_results_extractor
-      @scraper.route_extractor = @route_extractor
+      @scraper.routes_extractor = @routes_extractor
     end
 
-    context "finds route that doesn't already exist" do
-      it "should invoke new route hook" do
-        hook_invoked = false
+    context "when reading Routes from extractor" do
+      it "invokes route hook for every Route" do
+        routes_seen = []
 
-        @scraper.route_exists_hook = lambda { |id| false }
-        @scraper.new_route_hook = lambda { |r| hook_invoked = true }
+        @scraper.route_hook = lambda { |r| routes_seen << r }
 
         @scraper.scrape
 
-        hook_invoked.should be_true
+        routes_seen.length.should eq(2)
+        routes_seen[0].name.should eq('name 1')
+        routes_seen[1].name.should eq('name 2')
       end
 
-      it "should pass new Route to new route hook" do
-        route = nil
+      it "doesn't invoke route hook any more after it returns false" do
+        routes_seen = []
 
-        @scraper.route_exists_hook = lambda { |id| false }
-        @scraper.new_route_hook = lambda { |r| route = r }
+        @scraper.route_hook = lambda do |r|
+          routes_seen << r
+          false
+        end
 
         @scraper.scrape
 
-        route.id.should eq('3')
-        route.url.should eq('routes/3')
+        routes_seen.length.should eq(1)
+        routes_seen[0].name.should eq('name 1')
       end
     end
 
-    context "finds route that already exists" do
-      it "should not invoke new route hook" do
-        invoked_hook = false
-
-        @scraper.route_exists_hook = lambda { |id| true }
-        @scraper.new_route_hook = lambda { |r| invoked_hook = true }
-
-        @scraper.scrape
-
-        invoked_hook.should be_false
-      end
-    end
-
-    it "should invoke error hook when search results extractor raises error" do
-      @search_results_extractor.stub(:extract) do |html|
-        raise DataExtractionError, "the message"
-      end
-
-      error = nil
-      @scraper.scrape_error_hook = lambda { |e| error = e }
-
-      @scraper.scrape
-
-      error.message.should eq('the message')
-    end
-
-    it "should invoke error hook when route extractor raises error" do
-      @route_extractor.stub(:extract) do |html|
+    it "should invoke error hook when routes extractor raises error" do
+      @routes_extractor.stub(:extract) do |html|
         raise DataExtractionError, "the message"
       end
 

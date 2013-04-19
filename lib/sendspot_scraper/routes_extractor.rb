@@ -43,7 +43,7 @@ module SendspotScraper
     end
 
     def parse_title(title)
-      front, middle, back = title.split('-')
+      front, middle, back = title.split(' - ')
 
       {
         :name => front.strip,

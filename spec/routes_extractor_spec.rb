@@ -16,6 +16,13 @@ module SendspotScraper
       routes.first.name.should eq('Bad Puppy')
     end
 
+    # came up on April 19, 2013
+    it "should read ____ -vs- ____ style names" do
+      routes = @extractor.extract(SendspotScraper.routes_rss(:vs_name_style))
+
+      routes.first.name.should eq('Thing -vs- Other Thing')
+    end
+
     it "should read grade" do
       routes = @extractor.extract(SendspotScraper.routes_rss(:boulder))
 

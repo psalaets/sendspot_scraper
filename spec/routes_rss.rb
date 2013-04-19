@@ -42,6 +42,12 @@ module SendspotScraper
           <link>https://secure.theSendSpot.com/vc/route?rid=3614</link>
           <description>Boulder Problem at  (Rockville) Set By Ryan Bigs (Blue)</description>
         </item>
+      },
+      :vs_name_style => %Q{<item>
+          <title>Thing -vs- Other Thing - V7 - Set by Ryan Bigs  at Earth Treks (Rockville)</title>
+          <link>https://secure.theSendSpot.com/vc/route?rid=3614</link>
+          <description>Boulder Problem at  (Rockville) Set By Ryan Bigs (Blue)</description>
+        </item>
       }
     }
 

@@ -17,18 +17,16 @@ module SendspotScraper
 
     # Public: Gets xml of recent routes xml.
     #
-    # days_old - How many days worth of routes to include in xml.
-    #
     # Returns String of route rss feed xml, newest routes first.
-    def recent_routes(days_old)
-      recent_routes_uri(days_old).read
+    def recent_routes
+      recent_routes_uri.read
     end
 
     private
 
-    def recent_routes_uri(days_old)
+    def recent_routes_uri
       gids = @location_ids.join(',')
-      URI("#{rss_url}?gids=#{gids}&days_old=#{days_old}")
+      URI("#{rss_url}?gids=#{gids}")
     end
 
     def rss_url

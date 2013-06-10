@@ -21,8 +21,8 @@ module SendspotScraper
       @scrape_error_hook = lambda {|e|}
     end
 
-    def scrape(days_old = 7)
-      routes_xml = @client.recent_routes(days_old)
+    def scrape
+      routes_xml = @client.recent_routes
       routes = routes_extractor.extract(routes_xml)
 
       routes.each do |route|
